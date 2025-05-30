@@ -79,9 +79,8 @@
 
 (setq
  projectile-project-search-path
- '(
-   "~/repos/personal/",
-   "~/repos/personal/keep-talking/")
+ '((
+    "~/repos/personal/" . 2))
  )
 
 (after! lsp-mode
@@ -123,3 +122,10 @@
   (set-fontset-font t 'unicode
                     (font-spec :family "JetBrainsMono Nerd Font" :size 15)
                     nil 'prepend))
+
+(require 'elcord)
+(elcord-mode)
+
+(setq elcord-idle-timer 600
+      elcord-idle-message "Chillin'"
+      elcord-editor-icon "doom_cute_icon")
