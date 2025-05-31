@@ -129,3 +129,11 @@
 (setq elcord-idle-timer 600
       elcord-idle-message "Chillin'"
       elcord-editor-icon "doom_cute_icon")
+
+
+(map! :leader
+      :prefix "r"
+      :desc "iedit-mode" "i" #'iedit-mode)
+
+(map! :v "SPC r i" #'iedit-mode)
+
