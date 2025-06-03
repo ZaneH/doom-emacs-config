@@ -59,3 +59,5 @@
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
 
 (package! elcord)
+
+(package! mcp)

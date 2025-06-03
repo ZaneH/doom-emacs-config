@@ -100,7 +100,7 @@
               ;; Set the font for vterm
               (set (make-local-variable 'buffer-face-mode-face) '(:family "JetBrainsMono Nerd Font"))
               (buffer-face-mode t)))
-  )
+)
 
 ;; Set the default font for unicode characters
 (after! unicode-fonts
@@ -152,18 +152,17 @@
   )
 
 ;; Enable GPTel for AI conversations
-(setq gptel-model 'claude-3.7-sonnet
-      gptel-backend (gptel-make-gh-copilot "Copilot"))
+(after! gptel
+  (setq gptel-model 'claude-3.7-sonnet
+        gptel-backend (gptel-make-gh-copilot "Copilot"))
 
-;; Enable MCP servers for AI interactions
-(use-package! mcp
-  :ensure t
-  :after gptel
-  :custom (mcp-hub-servers
-           `(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-             ("mcp-server-reddit" . (:command "uvx" :args ("mcp-server-reddit")))
-             ))
-  :config (require 'mcp-hub)
-  :hook (after-init . mcp-hub-start-all-server))
+  ;; Enable MCP servers for AI interactions
+  (setq mcp-hub-servers
+            '(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+              ("mcp-server-reddit" . (:command "uvx" :args ("mcp-server-reddit")))
+            ))
+  (add-hook 'after-init-hook
+            #'mcp-hub-start-all-server)
 
-(require 'gptel-integrations)
+  (require 'gptel-integrations)
+)
