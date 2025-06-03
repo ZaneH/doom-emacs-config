@@ -89,6 +89,53 @@
   (setq company-idle-delay 0.2
         company-minimum-prefix-length 1))
 
+;; Enable vterm with custom settings
+(after! vterm
+  (setq vterm-max-scrollback 10000
+        vterm-shell "/home/me/.nix-profile/bin/zsh"
+        vterm-timer-delay 0.01)
+
+  (add-hook 'vterm-mode-hook
+            (lambda ()
+              ;; Set the font for vterm
+              (set (make-local-variable 'buffer-face-mode-face) '(:family "JetBrainsMono Nerd Font"))
+              (buffer-face-mode t)))
+  )
+
+;; Set the default font for unicode characters
+(after! unicode-fonts
+  (set-fontset-font t 'unicode
+                    (font-spec :family "JetBrainsMono Nerd Font" :size 15)
+                    nil 'prepend))
+
+;; Enable Elcord for Discord Rich Presence
+(require 'elcord)
+(elcord-mode)
+
+(setq elcord-idle-timer 600
+      elcord-idle-message "Chillin'"
+      elcord-editor-icon "doom_cute_icon")
+
+;; Enable iedit mode for editing multiple occurrences of a symbol
+(map! :leader
+      :prefix "r"
+      :desc "iedit-mode" "i" #'iedit-mode)
+
+(map! :v "SPC r i" #'iedit-mode)
+
+;; Typescript and TSX support
+(after! treesit
+  (setq treesit-language-source-alist
+        '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src" nil nil)
+          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src" nil nil))))
+
+(use-package typescript-ts-mode
+  :mode (("\\.ts\\'" . typescript-ts-mode)
+         ("\\.tsx\\'" . tsx-ts-mode))
+  :config
+  (add-hook! '(typescript-ts-mode-hook tsx-ts-mode-hook) #'lsp!))
+
+;; Enable Copilot for code completion
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
@@ -104,36 +151,19 @@
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
   )
 
+;; Enable GPTel for AI conversations
+(setq gptel-model 'claude-3.7-sonnet
+      gptel-backend (gptel-make-gh-copilot "Copilot"))
 
-(after! vterm
-  (setq vterm-max-scrollback 10000
-        vterm-shell "/home/me/.nix-profile/bin/zsh"
-        vterm-timer-delay 0.01)
+;; Enable MCP servers for AI interactions
+(use-package! mcp
+  :ensure t
+  :after gptel
+  :custom (mcp-hub-servers
+           `(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+             ("mcp-server-reddit" . (:command "uvx" :args ("mcp-server-reddit")))
+             ))
+  :config (require 'mcp-hub)
+  :hook (after-init . mcp-hub-start-all-server))
 
-  (add-hook 'vterm-mode-hook
-            (lambda ()
-              ;; Set the font for vterm
-              (set (make-local-variable 'buffer-face-mode-face) '(:family "JetBrainsMono Nerd Font"))
-              (buffer-face-mode t)))
-  )
-
-(after! unicode-fonts
-  ;; Set The default font for unicode characters
-  (set-fontset-font t 'unicode
-                    (font-spec :family "JetBrainsMono Nerd Font" :size 15)
-                    nil 'prepend))
-
-(require 'elcord)
-(elcord-mode)
-
-(setq elcord-idle-timer 600
-      elcord-idle-message "Chillin'"
-      elcord-editor-icon "doom_cute_icon")
-
-
-(map! :leader
-      :prefix "r"
-      :desc "iedit-mode" "i" #'iedit-mode)
-
-(map! :v "SPC r i" #'iedit-mode)
-
+(require 'gptel-integrations)
