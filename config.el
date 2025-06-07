@@ -78,15 +78,13 @@
 (setq doom-theme 'doom-moonlight)
 
 (setq
- projectile-project-search-path
- '((
-    "~/repos/personal/" . 2))
- )
+ projectile-project-search-path '("~/repos/personal/"))
 
+;; Completion window ('Intellisense' in Emacs) settings
 (after! lsp-mode
   (setq lsp-completion-provider :capf))
 (after! company
-  (setq company-idle-delay 0.2
+  (setq company-idle-delay 5
         company-minimum-prefix-length 1))
 
 ;; Enable vterm with custom settings
@@ -100,7 +98,7 @@
               ;; Set the font for vterm
               (set (make-local-variable 'buffer-face-mode-face) '(:family "JetBrainsMono Nerd Font"))
               (buffer-face-mode t)))
-)
+  )
 
 ;; Set the default font for unicode characters
 (after! unicode-fonts
@@ -136,7 +134,7 @@
   (add-hook! '(typescript-ts-mode-hook tsx-ts-mode-hook) #'lsp!))
 
 ;; Enable Copilot for code completion
-(use-package! copilot
+(use-package copilot
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
@@ -151,18 +149,105 @@
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
   )
 
+;; Load secrets if they exist
+(defun load-if-exists (f)
+  (let ((file (expand-file-name f)))
+    (when (file-exists-p file)
+      (load-file file))))
+
+(load-if-exists "~/.doom.d/secrets.el")
+
 ;; Enable GPTel for AI conversations
 (after! gptel
+  (require 'gptel-integrations)
+  (require 'mcp-hub)
+
   (setq gptel-model 'claude-3.7-sonnet
         gptel-backend (gptel-make-gh-copilot "Copilot"))
 
-  ;; Enable MCP servers for AI interactions
-  (setq mcp-hub-servers
-            '(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-              ("mcp-server-reddit" . (:command "uvx" :args ("mcp-server-reddit")))
-            ))
-  (add-hook 'after-init-hook
-            #'mcp-hub-start-all-server)
+  (setq gptel-expert-commands t)
+  (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
 
-  (require 'gptel-integrations)
-)
+  (let ((anthropic-key (when (fboundp 'my/anthropic-api-key)
+                         (my/anthropic-api-key)))
+        (openrouter-key (when (fboundp 'my/openrouter-api-key)
+                          (my/openrouter-api-key)))
+        (gemini-key (when (fboundp 'my/gemini-api-key)
+                      (my/gemini-api-key))))
+
+    ;; Enable MCP servers for AI interactions
+    (setq mcp-hub-servers
+          `(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+            ("mcp-server-reddit" . (:command "uvx" :args ("mcp-server-reddit")))
+            ("task-master-ai" . (:command "npx"
+                                 :args ("-y" "--package=task-master-ai" "task-master-ai")
+                                 :env (
+                                       :ANTHROPIC_API_KEY ,anthropic-key
+                                       :OPENROUTER_API_KEY ,openrouter-key
+                                       :GOOGLE_API_KEY ,gemini-key)))
+            ("desktop-commander" . (:command "npx"
+                                    :args ("-y" "@wonderwhy-er/desktop-commander")))
+            ("firecrawl-mcp" . (:command "npx"
+                                :args ("-y" "firecrawl-mcp")
+                                :env (
+                                      :FIRECRAWL_API_URL "http://localhost:3002"
+                                      :FIRECRAWL_RETRY_INITIAL_DELAY 8000
+                                      :FIRECRAWL_RETRY_MAX_ATTEMPTS 10
+                                      :FIRECRAWL_RETRY_BACKOFF_FACTOR 3
+                                      )))
+            ("mcp-knowledge-graph" . (:command "npx"
+                                      :args ("-y" "mcp-knowledge-graph" "--memory-path" "/home/me/repos/personal/mcp-knowledge-graph/memory.jsonl")))
+            )
+          ))
+
+  (gptel-make-preset 'memory
+    :description "This AI has memory"
+    :backend "Copilot"
+    :model 'claude-3.7-sonnet
+    :system "Follow these steps for each interaction:
+
+1. User Identification:
+   - You should assume that you are interacting with default_user
+   - If you have not identified default_user, proactively try to do so.
+
+2. Memory Retrieval:
+   - Always begin your chat by saying only \"Remembering...\" and retrieve all relevant information from your knowledge graph
+   - Always refer to your knowledge graph as your \"memory\"
+
+3. Memory
+   - While conversing with the user, be attentive to any new information that falls into these categories:
+     a) Basic Identity (age, gender, location, job title, education level, etc.)
+     b) Behaviors (interests, habits, etc.)
+     c) Preferences (communication style, preferred language, etc.)
+     d) Goals (goals, targets, aspirations, etc.)
+     e) Relationships (personal and professional relationships up to 3 degrees of separation)
+
+4. Memory Update:
+   - If any new information was gathered during the interaction, update your memory as follows:
+     a) Create entities for recurring organizations, people, and significant events
+     b) Connect them to the current entities using relations
+     b) Store facts about them as observations")
+  )
+
+(when (fboundp 'my/gemini-api-key)
+  (gptel-make-gemini "Gemini"
+    :key #'my/gemini-api-key
+    :stream t))
+
+(when (fboundp 'my/anthropic-api-key)
+  (gptel-make-anthropic "Claude"
+    :key #'my/anthropic-api-key
+    :stream t
+    :models '(claude-3.7-sonnet
+              claude-3.5-sonnet)))
+
+(when (fboundp 'my/openrouter-api-key)
+  (gptel-make-openai "OpenRouter"
+    :host "openrouter.ai"
+    :endpoint "/api/v1/chat/completions"
+    :stream t
+    :key #'my/openrouter-api-key
+    :models '(
+              google/gemini-2.5-pro-preview
+              google/gemini-2.5-flash-preview-05-20
+              )))

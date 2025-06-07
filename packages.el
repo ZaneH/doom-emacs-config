@@ -61,3 +61,9 @@
 (package! elcord)
 
 (package! mcp)
+
+(use-package counsel-projectile
+  :after projectile
+  :config (counsel-projectile-mode))
+
+(package! gptel :pin "6abda6f465c46216e37ba6aad8daa5fcd5761326")
