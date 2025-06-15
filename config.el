@@ -200,10 +200,11 @@
             )
           ))
 
+  ;; GPTel presets
   (gptel-make-preset 'memory
     :description "This AI has memory"
     :backend "Copilot"
-    :model 'claude-3.7-sonnet
+    :model 'claude-4-sonnet
     :system "Follow these steps for each interaction:
 
 1. User Identification:
@@ -251,3 +252,16 @@
               google/gemini-2.5-pro-preview
               google/gemini-2.5-flash-preview-05-20
               )))
+
+(use-package! pyvenv
+  :config
+  (pyvenv-mode 1))
+
+;; Load venv if it exists in the project root
+(add-hook 'python-mode-hook
+          (lambda ()
+            (when (file-exists-p (expand-file-name "venv" (projectile-project-root)))
+              (pyvenv-activate (expand-file-name "venv" (projectile-project-root))))))
+
+;; Use markdown for .mdc files
+(add-to-list 'auto-mode-alist '("\\.mdc\\'" . markdown-mode))

@@ -60,10 +60,20 @@
 
 (package! elcord)
 
+;; MCP.el
 (package! mcp)
 
 (use-package counsel-projectile
   :after projectile
   :config (counsel-projectile-mode))
 
+;; Latest pin of GPTel
 (package! gptel :pin "6abda6f465c46216e37ba6aad8daa5fcd5761326")
+
+;; Python LSP
+(use-package lsp-pyright
+  :ensure t
+  :custom (lsp-pyright-langserver-command "basedpyright")
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp-deferred))))
