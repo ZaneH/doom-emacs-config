@@ -75,12 +75,14 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; Set theme
 (setq doom-theme 'doom-moonlight)
 
+;; Project search path
 (setq
  projectile-project-search-path '("~/repos/personal/"))
 
-;; Completion window ('Intellisense' in Emacs) settings
+;; Completion (aka 'Intellisense' in Emacs)
 (after! lsp-mode
   (setq lsp-completion-provider :capf))
 (after! company
@@ -204,6 +206,7 @@
   (load-if-exists "~/.doom.d/gptel-presets.el")
   )
 
+;; Provide API keys for GPTel backends from secrets.el
 (when (fboundp 'my/gemini-api-key)
   (gptel-make-gemini "Gemini"
     :key #'my/gemini-api-key
@@ -213,7 +216,8 @@
   (gptel-make-anthropic "Claude"
     :key #'my/anthropic-api-key
     :stream t
-    :models '(claude-3.7-sonnet
+    :models '(claude-4-sonnet
+              claude-3.7-sonnet
               claude-3.5-sonnet)))
 
 (when (fboundp 'my/openrouter-api-key)
@@ -227,11 +231,11 @@
               google/gemini-2.5-flash-preview-05-20
               )))
 
+;; Configure pyenv to use the virtual environment in the project root
 (use-package! pyvenv
   :config
   (pyvenv-mode 1))
 
-;; Load venv if it exists in the project root
 (add-hook 'python-mode-hook
           (lambda ()
             (when (file-exists-p (expand-file-name "venv" (projectile-project-root)))
