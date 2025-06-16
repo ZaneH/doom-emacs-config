@@ -5,7 +5,7 @@ The config provides the standard components you'd expect from an IDE (IntelliSen
 as well as [GPTel](https://github.com/karthink/gptel) + [MCP.el](https://github.com/lizqwerscott/mcp.el) integration to make
 AI-assisted coding even more capable than GitHub Copilot's VSCode extension.
 
-**✨ Highlights:** AI integration, spellcheck, vterm integration, Discord Rich Presence, org-mode, multi-cursor edits,
+**✨ Highlights:** AI integration, spellcheck, magit, vterm integration, Discord Rich Presence, org-mode, multi-cursor edits,
 venv integration, undo tree, treemacs.
 
 ## Setup
