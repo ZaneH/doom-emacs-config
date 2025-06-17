@@ -38,13 +38,6 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/repos/org/")
-
-;; Set org roam to use brave browser for graph view
-(setq org-roam-graph-viewer "brave-browser")
-
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -77,12 +70,22 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; Utility function
+(defun load-if-exists (f)
+  (let ((file (expand-file-name f)))
+    (when (file-exists-p file)
+      (load-file file))))
+
+;; Load Org configuration
+(load! "+org")
+(load! "+git")
+
 ;; Set theme
 (setq doom-theme 'doom-moonlight)
 
 ;; Project search path
-(setq
- projectile-project-search-path '("~/repos/personal/"))
+(setq projectile-project-search-path '("~/repos/personal/"
+                                       "~/repos/org/roam/"))
 
 ;; Completion (aka 'Intellisense' in Emacs)
 (after! lsp-mode
@@ -154,11 +157,6 @@
   )
 
 ;; Load secrets if they exist
-(defun load-if-exists (f)
-  (let ((file (expand-file-name f)))
-    (when (file-exists-p file)
-      (load-file file))))
-
 (load-if-exists "~/.doom.d/secrets.el")
 
 ;; Enable GPTel for AI conversations
@@ -166,7 +164,7 @@
   (require 'gptel-integrations)
   (require 'mcp-hub)
 
-  (setq gptel-model 'claude-4-sonnet
+  (setq gptel-model 'claude-sonnet-4
         gptel-backend (gptel-make-gh-copilot "Copilot"))
 
   (setq gptel-expert-commands t)
@@ -205,7 +203,7 @@
           ))
 
   ;; GPTel presets
-  (load-if-exists "~/.doom.d/gptel-presets.el")
+  (load! "gptel-presets")
   )
 
 ;; Provide API keys for GPTel backends from secrets.el
@@ -218,7 +216,7 @@
   (gptel-make-anthropic "Claude"
     :key #'my/anthropic-api-key
     :stream t
-    :models '(claude-4-sonnet
+    :models '(claude-sonnet-4
               claude-3.7-sonnet
               claude-3.5-sonnet)))
 

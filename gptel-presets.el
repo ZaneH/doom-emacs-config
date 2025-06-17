@@ -3,7 +3,7 @@
 (gptel-make-preset 'default
   :description "Smart, concise, with tools"
   :backend "Copilot"
-  :model 'claude-4-sonnet
+  :model 'claude-sonnet-4
   :system "You are a helpful coding assistant. Your responses will be concise and you will use tools to assist the user."
   :tools '("desktop-commander")
   )
@@ -11,7 +11,7 @@
 (gptel-make-preset 'research
   :description "Web + Reddit research"
   :backend "Copilot"
-  :model 'claude-4-sonnet
+  :model 'claude-sonnet-4
   :system "You are a helpful coding assistant. Your responses will be concise and you will use tools to assist the user."
   :tools '("desktop-commander" "firecrawl-mcp" "mcp-server-reddit")
   )
@@ -19,7 +19,7 @@
 (gptel-make-preset 'vibemaxxing
   :description "Vibe coding preset"
   :backend "Copilot"
-  :model 'claude-4-sonnet
+  :model 'claude-sonnet-4
   :system "You are a helpful coding assistant. Your responses will be concise and you will use tools to assist the user."
   :tools '("desktop-commander" "task-master-ai")
   )
@@ -27,7 +27,7 @@
 (gptel-make-preset 'memory
   :description "This AI has memory"
   :backend "Copilot"
-  :model 'claude-4-sonnet
+  :model 'claude-sonnet-4
   :tools '("mcp-knowledge-graph")
   :system "Follow these steps for each interaction:
 
