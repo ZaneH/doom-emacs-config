@@ -40,5 +40,6 @@
   )
 
 ;; Add Hugo support for Org files
+;; C-c C-e H to start export
 (with-eval-after-load 'ox
   (require 'ox-hugo))
