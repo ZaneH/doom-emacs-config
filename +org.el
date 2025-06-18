@@ -1,19 +1,36 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
+;; Set column length and delete trailing lines
+(setq-default fill-column 120
+              delete-trailing-lines t)
+
 (after! org
   ;; Set org directory
   (setq org-directory "~/repos/org/")
-  (setq-default fill-column 120
-                delete-trailing-lines t)
+
+  ;; Break lines at 120 char
   (add-hook 'org-mode-hook #'auto-fill-mode)
   )
 
 (after! org-journal
-  (setq org-journal-date-prefix "#+TITLE: "
-        org-journal-time-prefix "* "
-        org-journal-date-format "%a %m-%d-%Y"
-        org-journal-file-format "%Y-%m-%d.org")
+  ;; Documented function: https://github.com/bastibe/org-journal?tab=readme-ov-file#journal-capture-template
+  (defun org-journal-find-location ()
+    (org-journal-new-entry t)
+    (unless (eq org-journal-file-type 'daily)
+      (org-narrow-to-subtree))
+    (goto-char (point-max)))
 
+  ;; Capture templates
+  (setq org-capture-templates '(("j" "Journal entry" plain (function org-journal-find-location)
+                                 "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
+                                 :jump-to-captured t :immediate-finish t)
+                                ))
+
+  ;; Journal config
+  (setq org-journal-file-format "%Y-%m-%d.org"
+        org-journal-file-type 'yearly
+        org-journal-start-on-weekday 1
+        org-journal-encrypt-journal t)
   )
 
 (after! org-roam
