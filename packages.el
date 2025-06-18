@@ -77,3 +77,9 @@
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
                          (lsp-deferred))))
+
+(package! ox-hugo)
+
+(use-package pyvenv
+  :config
+  (pyvenv-mode 1))

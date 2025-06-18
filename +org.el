@@ -1,7 +1,5 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
-;; Org configuration
-
 (after! org
   ;; Set org directory
   (setq org-directory "~/repos/org/")
@@ -23,3 +21,7 @@
   (setq org-roam-graph-viewer "brave-browser")
   (setq org-roam-directory "~/repos/org/roam/")
   )
+
+;; Add Hugo support for Org files
+(with-eval-after-load 'ox
+  (require 'ox-hugo))

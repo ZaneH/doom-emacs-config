@@ -76,9 +76,18 @@
     (when (file-exists-p file)
       (load-file file))))
 
-;; Load Org configuration
-(load! "+org")
+;; Load secrets if they exist
+(load-if-exists "~/.doom.d/secrets.el")
+
+(load! "+completion")
+(load! "+copilot")
 (load! "+git")
+(load! "+gptel")
+(load! "+keybindings")
+(load! "+lsp")
+(load! "+org")
+(load! "+python")
+(load! "+term")
 
 ;; Set theme
 (setq doom-theme 'doom-moonlight)
@@ -87,25 +96,6 @@
 (setq projectile-project-search-path '("~/repos/personal/"
                                        "~/repos/org/roam/"))
 
-;; Completion (aka 'Intellisense' in Emacs)
-(after! lsp-mode
-  (setq lsp-completion-provider :capf))
-(after! company
-  (setq company-idle-delay 5
-        company-minimum-prefix-length 1))
-
-;; Enable vterm with custom settings
-(after! vterm
-  (setq vterm-max-scrollback 10000
-        vterm-shell "/home/me/.nix-profile/bin/zsh"
-        vterm-timer-delay 0.01)
-
-  (add-hook 'vterm-mode-hook
-            (lambda ()
-              ;; Set the font for vterm
-              (set (make-local-variable 'buffer-face-mode-face) '(:family "JetBrainsMono Nerd Font"))
-              (buffer-face-mode t)))
-  )
 
 ;; Set the default font for unicode characters
 (after! unicode-fonts
@@ -113,133 +103,15 @@
                     (font-spec :family "JetBrainsMono Nerd Font" :size 15)
                     nil 'prepend))
 
-;; Enable Elcord for Discord Rich Presence
+;; Enable and configure Discord Rich Presence
 (require 'elcord)
 (elcord-mode)
-
 (setq elcord-idle-timer 600
       elcord-idle-message "Chillin'"
       elcord-editor-icon "doom_cute_icon")
 
-;; Enable iedit mode for editing multiple occurrences of a symbol
-(map! :leader
-      :prefix "r"
-      :desc "iedit-mode" "i" #'iedit-mode)
-
-(map! :v "SPC r i" #'iedit-mode)
-
-;; Typescript and TSX support
-(after! treesit
-  (setq treesit-language-source-alist
-        '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src" nil nil)
-          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src" nil nil))))
-
-(use-package typescript-ts-mode
-  :mode (("\\.ts\\'" . typescript-ts-mode)
-         ("\\.tsx\\'" . tsx-ts-mode))
-  :config
-  (add-hook! '(typescript-ts-mode-hook tsx-ts-mode-hook) #'lsp!))
-
-;; Enable Copilot for code completion
-(use-package copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word))
-  :config
-  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
-  (add-to-list 'copilot-indentation-alist '(org-mode 2))
-  (add-to-list 'copilot-indentation-alist '(text-mode 2))
-  (add-to-list 'copilot-indentation-alist '(closure-mode 2))
-  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
-  )
-
-;; Load secrets if they exist
-(load-if-exists "~/.doom.d/secrets.el")
-
-;; Enable GPTel for AI conversations
-(after! gptel
-  (require 'gptel-integrations)
-  (require 'mcp-hub)
-
-  (setq gptel-model 'claude-sonnet-4
-        gptel-backend (gptel-make-gh-copilot "Copilot"))
-
-  (setq gptel-expert-commands t)
-  (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
-
-  (let ((anthropic-key (when (fboundp 'my/anthropic-api-key)
-                         (my/anthropic-api-key)))
-        (openrouter-key (when (fboundp 'my/openrouter-api-key)
-                          (my/openrouter-api-key)))
-        (gemini-key (when (fboundp 'my/gemini-api-key)
-                      (my/gemini-api-key))))
-
-    ;; Enable MCP servers for AI interactions
-    (setq mcp-hub-servers
-          `(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-            ("mcp-server-reddit" . (:command "uvx" :args ("mcp-server-reddit")))
-            ("task-master-ai" . (:command "npx"
-                                 :args ("-y" "--package=task-master-ai" "task-master-ai")
-                                 :env (
-                                       :ANTHROPIC_API_KEY ,anthropic-key
-                                       :OPENROUTER_API_KEY ,openrouter-key
-                                       :GOOGLE_API_KEY ,gemini-key)))
-            ("desktop-commander" . (:command "npx"
-                                    :args ("-y" "@wonderwhy-er/desktop-commander")))
-            ("firecrawl-mcp" . (:command "npx"
-                                :args ("-y" "firecrawl-mcp")
-                                :env (
-                                      :FIRECRAWL_API_URL "http://localhost:3002"
-                                      :FIRECRAWL_RETRY_INITIAL_DELAY 8000
-                                      :FIRECRAWL_RETRY_MAX_ATTEMPTS 10
-                                      :FIRECRAWL_RETRY_BACKOFF_FACTOR 3
-                                      )))
-            ("mcp-knowledge-graph" . (:command "npx"
-                                      :args ("-y" "mcp-knowledge-graph" "--memory-path" "/home/me/repos/personal/mcp-knowledge-graph/memory.jsonl")))
-            )
-          ))
-
-  ;; GPTel presets
-  (load! "gptel-presets")
-  )
-
-;; Provide API keys for GPTel backends from secrets.el
-(when (fboundp 'my/gemini-api-key)
-  (gptel-make-gemini "Gemini"
-    :key #'my/gemini-api-key
-    :stream t))
-
-(when (fboundp 'my/anthropic-api-key)
-  (gptel-make-anthropic "Claude"
-    :key #'my/anthropic-api-key
-    :stream t
-    :models '(claude-sonnet-4
-              claude-3.7-sonnet
-              claude-3.5-sonnet)))
-
-(when (fboundp 'my/openrouter-api-key)
-  (gptel-make-openai "OpenRouter"
-    :host "openrouter.ai"
-    :endpoint "/api/v1/chat/completions"
-    :stream t
-    :key #'my/openrouter-api-key
-    :models '(
-              google/gemini-2.5-pro-preview
-              google/gemini-2.5-flash-preview-05-20
-              )))
-
-;; Configure pyenv to use the virtual environment in the project root
-(use-package! pyvenv
-  :config
-  (pyvenv-mode 1))
-
-(add-hook 'python-mode-hook
-          (lambda ()
-            (when (file-exists-p (expand-file-name "venv" (projectile-project-root)))
-              (pyvenv-activate (expand-file-name "venv" (projectile-project-root))))))
-
 ;; Use markdown for .mdc files
 (add-to-list 'auto-mode-alist '("\\.mdc\\'" . markdown-mode))
+
+;; Use .dir-locals.el for local variables
+(setq-default enable-local-variables t)
