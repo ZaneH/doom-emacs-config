@@ -28,9 +28,12 @@
 
   ;; Journal config
   (setq org-journal-file-format "%Y-%m-%d.org"
-        org-journal-file-type 'yearly
-        org-journal-start-on-weekday 1
+        org-journal-file-type 'weekly
+        org-journal-start-on-weekday 7
         org-journal-encrypt-journal t)
+
+  ;; Set GPG recipient
+  (setq org-crypt-key "B2BE2AC8A")
   )
 
 (after! org-roam
