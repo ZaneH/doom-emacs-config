@@ -11,3 +11,11 @@
          ("\\.tsx\\'" . tsx-ts-mode))
   :config
   (add-hook! '(typescript-ts-mode-hook tsx-ts-mode-hook) #'lsp!))
+
+(use-package! lsp-tailwindcss
+  :init
+  ;; lsp-tailwindcss config
+  (setq lsp-tailwindcss-add-on-mode t
+        lsp-tailwindcss-major-modes '(typescript-ts-mode tsx-ts-mode web-mode html-mode css-mode scss-mode less-mode json-mode jsonc-mode)
+        lsp-tailwindcss-skip-config-check t)
+  )

@@ -83,3 +83,5 @@
 (use-package pyvenv
   :config
   (pyvenv-mode 1))
+
+(package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
