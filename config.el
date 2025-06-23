@@ -94,7 +94,9 @@
 
 ;; Project search path
 (setq projectile-project-search-path '("~/repos/personal/"
-                                       "~/repos/org/roam/"))
+                                       "~/repos/org/roam/"
+                                       "~/repos/scrap/"
+                                       "~/repos/work/"))
 
 
 ;; Set the default font for unicode characters

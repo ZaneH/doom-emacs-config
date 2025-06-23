@@ -60,7 +60,6 @@
 
 (package! elcord)
 
-;; MCP.el
 (package! mcp)
 
 (use-package counsel-projectile
