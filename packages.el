@@ -84,3 +84,7 @@
   (pyvenv-mode 1))
 
 (package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
+
+(package! org-super-agenda)
+
+(package! olivetti)

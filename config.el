@@ -86,6 +86,7 @@
 (load! "+keybindings")
 (load! "+lsp")
 (load! "+org")
+(load! "+agenda")
 (load! "+python")
 (load! "+term")
 
@@ -104,6 +105,15 @@
   (set-fontset-font t 'unicode
                     (font-spec :family "JetBrainsMono Nerd Font" :size 15)
                     nil 'prepend))
+
+;; Set column length and delete trailing lines
+(setq-default fill-column 120
+              delete-trailing-lines t)
+
+;; Enable auto-fill mode in these modes
+(add-hook 'org-mode-hook #'auto-fill-mode)
+(add-hook 'markdown-mode-hook #'auto-fill-mode)
+(add-hook 'text-mode-hook #'auto-fill-mode)
 
 ;; Enable and configure Discord Rich Presence
 (require 'elcord)

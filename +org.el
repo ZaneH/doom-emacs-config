@@ -1,17 +1,24 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
-;; Set column length and delete trailing lines
-(setq-default fill-column 120
-              delete-trailing-lines t)
-
+;; == Org Mode Configuration ==
 (after! org
   ;; Set org directory
   (setq org-directory "~/repos/org/")
 
-  ;; Break lines at 120 char
-  (add-hook 'org-mode-hook #'auto-fill-mode)
+  ;; Capture templates
+  (setq org-capture-templates '(("j" "Journal entry" plain (function org-journal-find-location)
+                                 "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
+                                 :jump-to-captured t :immediate-finish t)
+                                ("p" "Personal todo" entry (file+headline "~/repos/org/todo.org" "Personal")
+                                 "* TODO %^{Title}\n%U\n%i%?"
+                                 :empty-lines 1 :immediate-finish t)
+                                ("w" "Work todo" entry (file+headline "~/repos/org/todo.org" "Work")
+                                 "* TODO %^{Title}\n%U\n%i%?"
+                                 :empty-lines 1 :immediate-finish t)
+                                ))
   )
 
+;; == Org Journal Configuration ==
 (after! org-journal
   ;; Documented function: https://github.com/bastibe/org-journal?tab=readme-ov-file#journal-capture-template
   (defun org-journal-find-location ()
@@ -19,12 +26,6 @@
     (unless (eq org-journal-file-type 'daily)
       (org-narrow-to-subtree))
     (goto-char (point-max)))
-
-  ;; Capture templates
-  (setq org-capture-templates '(("j" "Journal entry" plain (function org-journal-find-location)
-                                 "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
-                                 :jump-to-captured t :immediate-finish t)
-                                ))
 
   ;; Journal config
   (setq org-journal-file-format "%Y-%m-%d.org"
@@ -36,13 +37,13 @@
   (setq org-crypt-key "B2BE2AC8A")
   )
 
+;; == Org Roam Configuration ==
 (after! org-roam
   ;; Set org roam to use brave browser for graph view
   (setq org-roam-graph-viewer "brave-browser")
   (setq org-roam-directory "~/repos/org/roam/")
   )
 
-;; Add Hugo support for Org files
-;; C-c C-e H to start export
+;; == Org Export Configuration ==
 (with-eval-after-load 'ox
   (require 'ox-hugo))

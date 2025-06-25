@@ -1,12 +1,13 @@
 # Doom Emacs Config
 
-This [Doom Emacs](https://github.com/doomemacs/doomemacs) config focuses on web dev languages like React, Go and TypeScript.
-The config provides the standard components you'd expect from an IDE (IntelliSense, file explorer, integrated terminal, etc.)
-as well as [GPTel](https://github.com/karthink/gptel) + [MCP.el](https://github.com/lizqwerscott/mcp.el) integration to make
-AI-assisted coding even more capable than GitHub Copilot's VSCode extension.
+This [Doom Emacs](https://github.com/doomemacs/doomemacs) config focuses on web dev languages like React, Go and
+TypeScript. The config provides the standard components you'd expect from an IDE (IntelliSense, file explorer,
+integrated terminal, etc.) as well as [GPTel](https://github.com/karthink/gptel) +
+[MCP.el](https://github.com/lizqwerscott/mcp.el) integration to make AI-assisted coding even more capable than GitHub
+Copilot's VS Code extension.
 
-**✨ Highlights:** AI integration, spellcheck, magit, vterm integration, Discord Rich Presence, org-mode, multi-cursor edits,
-venv integration, undo tree, treemacs.
+**✨ Configured:** AI, spellcheck, magit, vterm, Discord Rich Presence, org-mode (journal + agenda), multi-cursor edits,
+venv, undo tree, treemacs, Docker, Tailwind.
 
 ## Setup
 
@@ -25,8 +26,9 @@ Use <kbd>M-x tree-sitter-langs-install-latest-grammar</kbd> to setup tree-sitter
 
 ### Secrets
 
-For services like OpenRouter or Anthropic's API to be accessible to GPTel, they require an API key. To prevent these keys from
-ending up in git, create a dedicated `~/.doom.d/secrets.el` file. If `secrets.el` exists, the `config.el` will load them.
+For services like OpenRouter or Anthropic's API to be accessible to GPTel, they require an API key. To prevent these
+keys from ending up in git, create a dedicated `~/.doom.d/secrets.el` file. If `secrets.el` exists, the `config.el` will
+load them.
 
 ```elisp
 ;;; $DOOMDIR/secrets.el -*- lexical-binding: t; -*-
