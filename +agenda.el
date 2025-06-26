@@ -38,7 +38,7 @@
 
   (setq org-agenda-files '("~/repos/org/todo.org"))
 
-  (setq org-agenda-span 1
+  (setq org-agenda-span 4
         org-agenda-start-day "+0d"
         org-agenda-skip-timestamp-if-done t
         org-agenda-skip-deadline-if-done t

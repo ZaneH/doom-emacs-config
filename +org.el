@@ -11,10 +11,10 @@
                                  :jump-to-captured t :immediate-finish t)
                                 ("p" "Personal todo" entry (file+headline "~/repos/org/todo.org" "Personal")
                                  "* TODO %^{Title}\n%U\n%i%?"
-                                 :empty-lines 1 :immediate-finish t)
+                                 :empty-lines 1)
                                 ("w" "Work todo" entry (file+headline "~/repos/org/todo.org" "Work")
                                  "* TODO %^{Title}\n%U\n%i%?"
-                                 :empty-lines 1 :immediate-finish t)
+                                 :empty-lines 1)
                                 ))
   )
 
@@ -43,6 +43,12 @@
   (setq org-roam-graph-viewer "brave-browser")
   (setq org-roam-directory "~/repos/org/roam/")
   )
+
+;; == Org Archive Configuration ==
+(use-package! org-archive
+  :after org
+  :config
+  (setq org-archive-location "archive.org::datetree/"))
 
 ;; == Org Export Configuration ==
 (with-eval-after-load 'ox

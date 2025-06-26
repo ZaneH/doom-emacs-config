@@ -91,7 +91,7 @@
 (load! "+term")
 
 ;; Set theme
-(setq doom-theme 'doom-moonlight)
+(setq doom-theme 'doom-tokyo-night)
 
 ;; Project search path
 (setq projectile-project-search-path '("~/repos/personal/"
