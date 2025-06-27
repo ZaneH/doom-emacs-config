@@ -15,6 +15,9 @@
                                 ("w" "Work todo" entry (file+headline "~/repos/org/todo.org" "Work")
                                  "* TODO %^{Title}\n%U\n%i%?"
                                  :empty-lines 1)
+                                ("n" "Note" entry (file+headline "~/repos/org/notes.org" "Notes")
+                                 "* %^{Title}\n%U\n%i%?"
+                                 :empty-lines 1 :immediate-finish t)
                                 ))
   )
 
@@ -53,3 +56,7 @@
 ;; == Org Export Configuration ==
 (with-eval-after-load 'ox
   (require 'ox-hugo))
+
+;; == Org CV Configuration ==
+(use-package! ox-moderncv
+  :after org)
