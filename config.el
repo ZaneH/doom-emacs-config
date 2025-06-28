@@ -89,12 +89,14 @@
 (load! "+agenda")
 (load! "+python")
 (load! "+term")
+(load! "+sql")
 
 ;; Set theme
 (setq doom-theme 'doom-tokyo-night)
 
 ;; Project search path
 (setq projectile-project-search-path '("~/repos/personal/"
+                                       "~/repos/personal/contrib/"
                                        "~/repos/org/roam/"
                                        "~/repos/scrap/"
                                        "~/repos/work/"))
@@ -127,3 +129,4 @@
 
 ;; Use .dir-locals.el for local variables
 (setq-default enable-local-variables t)
+

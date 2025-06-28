@@ -17,7 +17,7 @@
                                  :empty-lines 1)
                                 ("n" "Note" entry (file+headline "~/repos/org/notes.org" "Notes")
                                  "* %^{Title}\n%U\n%i%?"
-                                 :empty-lines 1 :immediate-finish t)
+                                 :empty-lines 1)
                                 ))
   )
 

@@ -91,3 +91,5 @@
 
 (package! org-cv
   :recipe (:host gitlab :repo "Titan-C/org-cv"))
+
+(package! sqlite-mode-extras)
