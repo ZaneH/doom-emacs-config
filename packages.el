@@ -67,7 +67,7 @@
   :config (counsel-projectile-mode))
 
 ;; Latest pin of GPTel
-(package! gptel :pin "6abda6f465c46216e37ba6aad8daa5fcd5761326")
+(package! gptel :pin "8f8416b0b69fccfa559be4e05cb3214bd04edd6b")
 
 ;; Python LSP
 (use-package lsp-pyright
