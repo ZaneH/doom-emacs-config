@@ -38,6 +38,7 @@
       :models '(
                 google/gemini-2.5-pro-preview
                 google/gemini-2.5-flash-preview-05-20
+                anthropic/claude-4-sonnet-20250522
                 )))
 
 
@@ -75,35 +76,35 @@
 
   ;; GPTel Presets
   (gptel-make-preset 'default
-                     :description "Smart, concise, with tools"
-                     :backend "Copilot"
-                     :model 'claude-sonnet-4
-                     :system "You are a helpful coding assistant. Your responses will be concise and you will use tools to assist the user."
-                     :tools '("desktop-commander")
-                     )
+    :description "Smart, concise, with tools"
+    :backend "Copilot"
+    :model 'claude-sonnet-4
+    :system "You are a helpful coding assistant. Your responses will be concise and you will use tools to assist the user."
+    :tools '("desktop-commander")
+    )
 
   (gptel-make-preset 'research
-                     :description "Web + Reddit research"
-                     :backend "Copilot"
-                     :model 'claude-sonnet-4
-                     :system "You are a helpful coding assistant. Your responses will be concise and you will use tools to assist the user."
-                     :tools '("desktop-commander" "firecrawl-mcp" "mcp-server-reddit")
-                     )
+    :description "Web + Reddit research"
+    :backend "Copilot"
+    :model 'claude-sonnet-4
+    :system "You are a helpful coding assistant. Your responses will be concise and you will use tools to assist the user."
+    :tools '("desktop-commander" "firecrawl-mcp" "mcp-server-reddit")
+    )
 
   (gptel-make-preset 'vibemaxxing
-                     :description "Vibe coding preset"
-                     :backend "Copilot"
-                     :model 'claude-sonnet-4
-                     :system "You are a helpful coding assistant. Your responses will be concise and you will use tools to assist the user."
-                     :tools '("desktop-commander" "task-master-ai")
-                     )
+    :description "Vibe coding preset"
+    :backend "Copilot"
+    :model 'claude-sonnet-4
+    :system "You are a helpful coding assistant. Your responses will be concise and you will use tools to assist the user."
+    :tools '("desktop-commander" "task-master-ai")
+    )
 
   (gptel-make-preset 'memory
-                     :description "This AI has memory"
-                     :backend "Copilot"
-                     :model 'claude-sonnet-4
-                     :tools '("mcp-knowledge-graph")
-                     :system "Follow these steps for each interaction:
+    :description "This AI has memory"
+    :backend "Copilot"
+    :model 'claude-sonnet-4
+    :tools '("mcp-knowledge-graph")
+    :system "Follow these steps for each interaction:
 
 1. User Identification:
    - You should assume that you are interacting with default_user
@@ -126,6 +127,6 @@
      a) Create entities for recurring organizations, people, and significant events
      b) Connect them to the current entities using relations
      b) Store facts about them as observations"
-                     )
+    )
 
   )
