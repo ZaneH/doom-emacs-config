@@ -6,19 +6,7 @@
   (setq org-directory "~/repos/org/")
 
   ;; Capture templates
-  (setq org-capture-templates '(("j" "Journal entry" plain (function org-journal-find-location)
-                                 "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
-                                 :jump-to-captured t :immediate-finish t)
-                                ("p" "Personal todo" entry (file+headline "~/repos/org/todo.org" "Personal")
-                                 "* TODO %^{Title}\n%U\n%i%?"
-                                 :empty-lines 1)
-                                ("w" "Work todo" entry (file+headline "~/repos/org/todo.org" "Work")
-                                 "* TODO %^{Title}\n%U\n%i%?"
-                                 :empty-lines 1)
-                                ("n" "Note" entry (file+headline "~/repos/org/notes.org" "Notes")
-                                 "* %^{Title}\n%U\n%i%?"
-                                 :empty-lines 1)
-                                ))
+  ;; I've moved my capture templates to ./secrets.el
   )
 
 ;; == Org Journal Configuration ==

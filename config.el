@@ -77,6 +77,7 @@
       (load-file file))))
 
 ;; Load secrets if they exist
+;; You can use this to store sensitive information like API keys or private configurations.
 (load-if-exists "~/.doom.d/secrets.el")
 
 (load! "+completion")
