@@ -22,11 +22,11 @@
         :nvi "l" #'sqlite-mode-extras-tab-dwim
         :nvi "a" #'sqlite-mode-extras-add-row
         :nvi "r" #'sqlite-mode-extras-refresh
-        :nvi "D" #'sqlite-mode-extras-delete-row-dwim
+        :nvi "D" #'sqlite-mode-delete
         :nvi "E" #'sqlite-mode-extras-execute
         :nvi "C" #'sqlite-mode-extras-compose-and-execute
         :nvi "S" #'sqlite-mode-extras-execute-and-display-select-query
         :nvi "<backtab>" #'sqlite-mode-extras-backtab-dwim
         :nvi "<tab>" #'sqlite-mode-extras-tab-dwim
         :nvi "RET" #'sqlite-mode-extras-ret-dwim
-        :nvi "DEL" #'sqlite-mode-extras-delete-row-dwim))
+        :nvi "DEL" #'sqlite-mode-delete))
