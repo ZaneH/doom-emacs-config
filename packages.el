@@ -52,6 +52,10 @@
   :recipe (:host github :repo "protocolbuffers/protobuf"
            :files ("editors/*.el")))
 
+(package! flymake-jsts
+  :recipe (:host github :repo "orzechowskid/flymake-jsts"
+           :branch "main"))
+
 (package! tsx-mode
   :recipe '(:host github :repo "orzechowskid/tsx-mode.el" :branch "emacs30"))
 
