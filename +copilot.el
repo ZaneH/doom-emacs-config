@@ -2,7 +2,6 @@
 
 ;; Enable Copilot for code completion
 (use-package copilot
-  :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
