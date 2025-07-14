@@ -119,8 +119,8 @@
 (add-hook 'text-mode-hook #'auto-fill-mode)
 
 ;; Enable and configure Discord Rich Presence
-(require 'elcord)
-(elcord-mode)
+;; (require 'elcord)
+;; (elcord-mode)
 (setq elcord-idle-timer 600
       elcord-idle-message "Chillin'"
       elcord-editor-icon "doom_cute_icon")
