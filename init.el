@@ -90,8 +90,8 @@
        ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
-       ;;debugger          ; FIXME stepping through code, to help you add bugs
-       ;;direnv
+       debugger          ; FIXME stepping through code, to help you add bugs
+       direnv
        (docker +lsp)
        ;;editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
@@ -100,7 +100,7 @@
        llm               ; when I said you needed friends, I didn't mean...
        lsp               ; M-x vscode
        (magit +forge)             ; a git porcelain for Emacs
-       ;;make              ; run make tasks from Emacs
+       make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        ;;pdf               ; pdf enhancements
        ;;terraform         ; infrastructure as code
@@ -160,7 +160,7 @@
        ;;graphviz          ; diagrams for confusing yourself even more
        ;;purescript        ; javascript, but functional
        (python +tree-sitter +lsp +pyright)            ; beautiful is better than ugly
-       ;;qt                ; the 'cutest' gui framework ever
+       qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
        ;;rest              ; Emacs as a REST client

@@ -34,3 +34,16 @@
    (make-lsp-client :new-connection (lsp-stdio-connection `("tilt" "lsp" "start"))
                     :activation-fn (lsp-activate-on "tiltfile")
                     :server-id 'tilt-lsp)))
+
+(after! lsp-clangd
+  (setq lsp-clients-clangd-args
+        '("-j=3"
+          "--background-index"
+          "--clang-tidy"
+          "--completion-style=detailed"
+          "--header-insertion=never"
+          "--header-insertion-decorators=0"))
+  (set-lsp-priority! 'clangd 2))
+
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+(add-hook 'c-mode-common-hook 'google-make-newline-indent)

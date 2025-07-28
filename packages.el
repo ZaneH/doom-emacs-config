@@ -71,7 +71,7 @@
   :config (counsel-projectile-mode))
 
 ;; Latest pin of GPTel
-(package! gptel :pin "8f8416b0b69fccfa559be4e05cb3214bd04edd6b")
+(package! gptel :pin "1b8d913dfc51e28edf2c67fab03296ddf94fe8de")
 
 ;; Python LSP
 (use-package lsp-pyright
@@ -97,3 +97,5 @@
   :recipe (:host gitlab :repo "Titan-C/org-cv"))
 
 (package! sqlite-mode-extras)
+
+(package! google-c-style)
