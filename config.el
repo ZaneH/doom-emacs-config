@@ -130,4 +130,3 @@
 
 ;; Use .dir-locals.el for local variables
 (setq-default enable-local-variables t)
-

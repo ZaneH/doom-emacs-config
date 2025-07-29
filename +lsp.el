@@ -35,15 +35,9 @@
                     :activation-fn (lsp-activate-on "tiltfile")
                     :server-id 'tilt-lsp)))
 
-(after! lsp-clangd
-  (setq lsp-clients-clangd-args
-        '("-j=3"
-          "--background-index"
-          "--clang-tidy"
-          "--completion-style=detailed"
-          "--header-insertion=never"
-          "--header-insertion-decorators=0"))
-  (set-lsp-priority! 'clangd 2))
+;; (add-hook 'c-mode-common-hook 'google-set-c-style)
+;; (add-hook 'c-mode-common-hook 'google-make-newline-indent)
 
-(add-hook 'c-mode-common-hook 'google-set-c-style)
-(add-hook 'c-mode-common-hook 'google-make-newline-indent)
+(after! ccls
+  (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
+  (set-lsp-priority! 'ccls 1))
